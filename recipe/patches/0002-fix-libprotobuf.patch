@@ -1,0 +1,28 @@
+From c22985f8009c994e902dfbbee3cc402b15d55aab Mon Sep 17 00:00:00 2001
+From: Wang Xiaofeng <wasphin@gmail.com>
+Date: Sun, 9 Aug 2026 00:12:57 +0800
+Subject: [PATCH 1/2] Support Protobuf v35
+
+---
+ src/brpc/nonreflectable_message.h | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/src/brpc/nonreflectable_message.h b/src/brpc/nonreflectable_message.h
+index 089b23957d..fab6301249 100644
+--- a/src/brpc/nonreflectable_message.h
++++ b/src/brpc/nonreflectable_message.h
+@@ -288,8 +288,13 @@ class NonreflectableMessage : public ::google::protobuf::Message {
+ #    endif
+                 ) {
+             // Only can be used to determine whether the Types are the same.
+-            descriptor = default_instance().GetMetadata().descriptor;
+-            reflection = default_instance().GetMetadata().reflection;
++#    if GOOGLE_PROTOBUF_VERSION >= 7035000
++            set_descriptor(NonreflectableMessage<T>::default_instance().GetMetadata().descriptor);
++            set_reflection(NonreflectableMessage<T>::default_instance().GetMetadata().reflection);
++#    else
++            descriptor = NonreflectableMessage<T>::default_instance().GetMetadata().descriptor;
++            reflection = NonreflectableMessage<T>::default_instance().GetMetadata().reflection;
++#    endif
+         }
+     };

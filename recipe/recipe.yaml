@@ -16,6 +16,7 @@ source:
     # guard the Linux-only SO_BINDTODEVICE socket option, missing from the
     # macOS SDK; backport of https://github.com/apache/brpc/pull/3320
     - patches/0001-fix-guard-SO_BINDTODEVICE.patch
+    - patches/0002-fix-libprotobuf.patch
 
 build:
   number: 0
@@ -33,12 +34,12 @@ requirements:
     # protoc is executed at build time to compile brpc's own .proto files
     - if: build_platform != target_platform
       then:
-        - libprotobuf <7.34.1
+        - libprotobuf
   host:
     - gflags
     - leveldb
     - libabseil
-    - libprotobuf <7.34.1
+    - libprotobuf
     - openssl
     - zlib
   run:

@@ -33,12 +33,12 @@ requirements:
     # protoc is executed at build time to compile brpc's own .proto files
     - if: build_platform != target_platform
       then:
-        - libprotobuf
+        - libprotobuf <7.34.1
   host:
     - gflags
     - leveldb
     - libabseil
-    - libprotobuf
+    - libprotobuf <7.34.1
     - openssl
     - zlib
   run:

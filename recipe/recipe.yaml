@@ -69,14 +69,14 @@ tests:
         exists:
           - lib/pkgconfig/brpc.pc
   - requirements:
-      run:
+      build:
         - ${{ compiler('cxx') }}
         - pkg-config
     script:
       - pkg-config --exists --print-errors brpc
       - test "$(pkg-config --modversion brpc)" = "${{ version }}"
       - $CXX $CXXFLAGS -std=c++17 test_program.cpp $(pkg-config --cflags --libs brpc) $LDFLAGS -o test_program
-      - ./test_program
+      - if [ "$CONDA_BUILD_CROSS_COMPILATION" != "1" ]; then ./test_program; fi
     files:
       recipe:
         - test_program.cpp

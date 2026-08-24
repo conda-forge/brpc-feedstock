@@ -11,3 +11,4 @@ int main() {
     LOG(INFO) << "brpc smoke test, counter=" << counter.get_value();
     return counter.get_value() == 42 ? 0 : 1;
 }
+ 

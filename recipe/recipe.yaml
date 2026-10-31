@@ -70,6 +70,9 @@ tests:
     script:
       - pkg-config --exists --print-errors brpc
       - test "$(pkg-config --modversion brpc)" = "${{ version }}"
+      # Match the library's deployment target instead of the test environment's default.
+      - if: osx
+        then: export MACOSX_DEPLOYMENT_TARGET=${{ c_stdlib_version }}
       - $CXX $CXXFLAGS -std=c++17 test_program.cpp $(pkg-config --cflags --libs brpc) $LDFLAGS -o test_program
       - if [ "$CONDA_BUILD_CROSS_COMPILATION" != "1" ]; then ./test_program; fi
     files:

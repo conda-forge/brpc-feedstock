@@ -20,6 +20,10 @@ cmake_args=(
   -DWITH_DEBUG_SYMBOLS=OFF
 )
 
+if [[ "${target_platform}" == linux-* ]]; then
+  cmake_args+=(-DWITH_RDMA=ON)
+fi
+
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "1" ]]; then
   cmake_args+=(
     -DProtobuf_PROTOC_EXECUTABLE="${BUILD_PREFIX}/bin/protoc"
